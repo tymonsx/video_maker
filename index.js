@@ -1,34 +1,14 @@
-const readLine = require("readLine-sync");
 const robots = {
+  input: require("./robots/input.js"),
   text: require("./robots/text.js"),
+  state: require("./robots/state.js"),
 };
 async function start() {
-  const content = {
-    maximumSentences: 7,
-  };
+  robots.input();
+  await robots.text();
+  const content = robots.state.load();
+  console.dir(content, { depth: null });
 
-  content.searchTerm = askAndReturnSearchTerm();
-  content.prefix = askAndReturnPrefix();
-
-  await robots.text(content);
-
-  function askAndReturnSearchTerm() {
-    return readLine.question(
-      "Manda um Termo do wikipedia para eu devorar =D : "
-    );
-  }
-
-  function askAndReturnPrefix() {
-    const prefixes = ["Who is", "What is", "The History of"];
-    const selectPrefixIndex = readLine.keyInSelect(
-      prefixes,
-      "Escolhe uma Opção (por enquanto vai ser em inglês):"
-    );
-    const selectedPrefixText = prefixes[selectPrefixIndex];
-
-    return selectedPrefixText;
-  }
-
-  console.log(JSON.stringify(content, null, 4));
+  // console.log(JSON.stringify(content, null, 4));
 }
 start();
