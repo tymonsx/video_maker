@@ -5,13 +5,11 @@ const robots = {
   image: require("./robots/image.js"),
 };
 async function start() {
-  //robots.input();
-  //await robots.text();
+  robots.input();
+  await robots.text();
   await robots.image();
 
   const content = robots.state.load();
   console.dir(content, { depth: null });
-
-  // console.log(JSON.stringify(content, null, 4));
 }
 start();
