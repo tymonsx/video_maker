@@ -14,6 +14,7 @@ const nlu = new NaturalLanguageUnderstandingV1({
 const state = require("./state.js");
 
 async function robot() {
+  console.log("> [text-robot] Iniciando...");
   content = state.load();
   await fechContentFromWikipedia(content);
   sanitizedContent(content);
@@ -23,6 +24,7 @@ async function robot() {
   state.save(content);
 
   async function fechContentFromWikipedia(content) {
+    console.log("> [text-robot] Pegando dados da wikipedia");
     const algorithmiaAuthenticated = algorithmia(algorithmiaApiKey);
     const wikipediaAlgorithm = algorithmiaAuthenticated.algo(
       "web/WikipediaParser/0.1.2?timeout=300"
@@ -32,6 +34,7 @@ async function robot() {
     const wikipediContent = wikipediaResponse.get();
 
     content.sourceContentOriginal = wikipediContent.content;
+    console.log("> [text-robot] Dados pegos");
   }
   function sanitizedContent(content) {
     const withoutBlankLinesAndMakdown = removeBlankLinesAndMarkdown(
@@ -79,8 +82,12 @@ async function robot() {
   }
 
   async function fetchKeywordsOfAllSentences(content) {
+    console.log("> [text-robot] Pegando palavras chaves com o watson");
     for (const sentence of content.sentences) {
+      console.log(`> [text-robot] sentenca: "${sentence.text}"`);
       sentence.keywords = await fetchWatsonAndReturnKeywords(sentence.text);
+
+      console.log(`> [text-robot] ${sentence.keywords.join(", ")}\n`);
     }
   }
   async function fetchWatsonAndReturnKeywords(sentence) {
@@ -94,7 +101,8 @@ async function robot() {
         },
         (error, response) => {
           if (error) {
-            throw error;
+            reject(error);
+            return;
           }
           const keywords = response.keywords.map((keyword) => {
             return keyword.text;

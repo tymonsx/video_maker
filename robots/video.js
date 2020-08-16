@@ -4,6 +4,7 @@ const spawn = require("child_process").spawn;
 const path = require("path");
 const rootPath = path.resolve(__dirname, "..");
 async function robot() {
+  console.log("> [video-robot] Iniciando...");
   const content = state.load();
   await convertAllImages(content);
   await createAllSentenceImages(content);
@@ -53,7 +54,7 @@ async function robot() {
             return reject(error);
           }
 
-          console.log(`> [image-robot] Image converted: ${outputFile}`);
+          console.log(`> [video-robot] Image converted: ${outputFile}`);
           resolve();
         });
     });
@@ -132,7 +133,7 @@ async function robot() {
             return reject(error);
           }
 
-          console.log(`> [video-robot] Youtube Thumbnail Created`);
+          console.log(`> [video-robot] Thumbnail do Youtube criada`);
           resolve();
         });
     });
@@ -148,7 +149,7 @@ async function robot() {
         "C:/Program Files/Adobe/Adobe After Effects 2020/Support Files/aerender.exe";
       const templateFilePath = `${rootPath}/templates/1/template.aep`;
       const destinationFilePath = `${rootPath}/content/output.mov`;
-      console.log("> [video-robot] Starting After Efects");
+      console.log("> [video-robot] Iniciando After Effects");
       const aerender = spawn(aerenderFilePath, [
         "-comp",
         "main",
@@ -162,7 +163,7 @@ async function robot() {
       });
 
       aerender.on("close", () => {
-        console.log("> [video-robot] After Efects closed");
+        console.log("> [video-robot] After Efects Fechado");
         resolve();
       });
     });
