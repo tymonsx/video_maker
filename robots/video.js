@@ -5,12 +5,12 @@ const path = require("path");
 const rootPath = path.resolve(__dirname, "..");
 async function robot() {
   const content = state.load();
-  //await convertAllImages(content);
-  //await createAllSentenceImages(content);
-  //await createYoutubeThumbnail();
-  //await createAfterEffectsScript(content);
+  await convertAllImages(content);
+  await createAllSentenceImages(content);
+  await createYoutubeThumbnail();
+  await createAfterEffectsScript(content);
   await renderVideoWithAfterEffects();
-  //state.save(content);
+  state.save(content);
   async function convertAllImages(content) {
     for (
       let sentenceIndex = 0;
